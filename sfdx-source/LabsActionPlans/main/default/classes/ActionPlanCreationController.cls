@@ -132,6 +132,15 @@ public with sharing class ActionPlanCreationController {
 		this.refId = ActionPlansUtilities.getEscapedPageParameter('refId');
 		this.refType = ActionPlansUtilities.getEscapedPageParameter('refType');
 
+		/**
+		 * Check if refType needs '__c', add if so
+		 * Author: Sam Stroud
+		 */
+		Map<String, Schema.SObjectType> sot = Schema.getGlobalDescribe();
+		if (sot.get(this.refType) == null) {
+			this.refType += '__c';
+		}
+
 		this.taskOwnerMap = new Map<Id, OwnerWrapper>();
 
 		if (cloneParam == '1') {
@@ -868,7 +877,10 @@ public with sharing class ActionPlanCreationController {
 						SendEmail__c,
 						Comments__c,
 						TaskIndex__c,
-						Action_Plan_Template__r.TaskRecordTypeID__c
+						Action_Plan_Template__r.TaskRecordTypeID__c,
+						Topic__c,
+						Promote_to_Case__c,
+						Department__c
 					FROM APTemplateTask__c
 					WHERE Action_Plan_Template__c = :templateId
 					ORDER BY TaskIndex__c ASC
@@ -889,6 +901,9 @@ public with sharing class ActionPlanCreationController {
 					apt.TaskIndex__c = aptTask.TaskIndex__c;
 					apt.DaysFromStart__c = aptTask.DaysFromStart__c;
 					apt.Reminder__c = aptTask.Reminder__c;
+					apt.Topic__c = aptTask.Topic__c;
+					apt.Promote_to_Case__c = aptTask.Promote_to_Case__c;
+					apt.Department__c = aptTask.Department__c;
 
 					if (aptTask.Reminder__c && String.isBlank(aptTask.Minutes_Reminder__c)) {
 						apt.Minutes_Reminder__c = ActionPlansUtilities.getDefaultReminderMinutes();
@@ -961,7 +976,10 @@ public with sharing class ActionPlanCreationController {
 				Time_Reminder__c,
 				Task_RecordTypeId__c,
 				IsClosed__c,
-				Action_Plan__r.Name
+				Action_Plan__r.Name,
+				Topic__c,
+				Promote_to_Case__c,
+				Department__c
 			FROM APTask__c
 			WHERE Action_Plan__c = :actionPlanId
 			ORDER BY TaskIndex__c ASC
@@ -1361,6 +1379,41 @@ public with sharing class ActionPlanCreationController {
 	public List<SelectOption> getTaskRTPicklistValues() {
 		return ActionPlansUtilities.getTaskRTPicklistValues();
 	}
+
+		/**
+	 * Piclist of `Task.Department__c` values
+	 */
+	private List<SelectOption> listOfDepartments;
+	/**
+	 * Generates picklist of Task Departments
+	 * @author {[Sam Stroud]}
+	 * @return Picklist of `Task.Department__c`
+	 * @see ActionPlansUtilities.getFieldOptions
+	 */
+	public List<SelectOption> taskDepartments;
+	public List<SelectOption> getTaskDepartments() {
+		if (listOfDepartments == null) {
+			listOfDepartments = ActionPlansUtilities.getFieldOptions('Task', 'Department__c', true);
+		}
+		return listOfDepartments;
+	}
+	
+    /**
+     * Picklist of `Task.Topic__c` values
+     */
+    private List<SelectOption> listOfTopics;
+    /**
+     * Generates picklist of Task Topics
+     * @author {[Sam Stroud]}
+     * @return Picklist of `Task.Topic__c`
+     * @see ActionPlansUtilities.getFieldOptions
+     */
+    public List<SelectOption> getTaskTopics() {
+        if (listOfTopics == null) {
+            listOfTopics = ActionPlansUtilities.getFieldOptions('Task', 'Topic__c', true);
+        }
+        return listOfTopics;
+    }
 
 	/**
 	 * Picklist of `Task.Type` values
