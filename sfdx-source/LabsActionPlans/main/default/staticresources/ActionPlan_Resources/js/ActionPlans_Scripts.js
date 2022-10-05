@@ -139,6 +139,19 @@ function getRowFromVisualforceId(elementId) {
 	}
 }
 
+/**
+ * Function to check all checkboxes for dependent EP Tasks
+ * Author: Sam Stroud
+ * @param {boolean} type 
+ */
+function checkPromoteToCase(type) {
+	if (type == '1') {
+		j$('[id$=promoteToCaseCheckbox]').prop('checked', true);
+	} else {
+		j$('[id$=promoteToCaseCheckbox]').prop('checked', false);
+	}
+}
+
 function checkReminder(type) {
 	if (type == '1') {
 		j$('[id$=\\:reminder]').prop('checked', true);
