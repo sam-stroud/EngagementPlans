@@ -386,7 +386,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 						<apex:outputPanel id="taskList" styleClass="slds-scope">
 							<apex:pageBlockTable value="{!Tasks}" var="wrapTask" id="taskTable" style="table-layout: auto; width: 100%; vertical-align: middle" rules="all">
 								<!--  Tasks delete actions  -->
-								<apex:column style="max-width: 20px" headerValue="" id="columnOne" rendered="{!Tasks.size > 1}">
+								<apex:column style="width: 40px" headerValue="" id="columnOne" rendered="{!Tasks.size > 1}">
 									<apex:commandLink
 										rerender="taskTable, pageMessages"
 										immediate="{!wrapTask.isLast}"
@@ -428,7 +428,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 								</apex:column>
 
 								<!--  Task Days After  -->
-								<apex:column>
+								<apex:column style="column-width: auto">
 									<apex:facet name="header">
 										<span>
 											{!$ObjectType.APTask__c.fields.DaysFromStart__c.label}
@@ -440,14 +440,14 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 										required="true"
 										value="{!wrapTask.apt.DaysFromStart__c}"
 										styleClass="daysInput"
-										style="width: 50%"
+										style="width: auto"
 										rendered="{!!wrapTask.apt.IsClosed__c}" />
 									<apex:outputField value="{!wrapTask.apt.DaysFromStart__c}" styleClass="daysInput" rendered="{!wrapTask.apt.IsClosed__c}" />
 									<apex:inputField id="activityDate" value="{!wrapTask.apt.ActivityDate__c}" rendered="false" />
 								</apex:column>
 
 								<!--  Tasks Assigned To  -->
-								<apex:column style="vertical-align: middle">
+								<apex:column style="column-width: auto">
 									<apex:facet name="header">
 										<span>
 											{!$ObjectType.APTask__c.fields.User__c.label}
@@ -491,13 +491,14 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 								</apex:column>
 
 								<!--  Tasks priority  -->
-								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Priority__c.label}" style="vertical-align: middle">
+								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Priority__c.label}" style="vertical-align: middle; width: auto">
 									<apex:selectList
 										required="true"
 										value="{!wrapTask.apt.Priority__c}"
 										size="1"
 										rendered="{!!wrapTask.apt.IsClosed__c && $ObjectType.APTask__c.fields.Priority__c.updateable}"
-										styleclass="slds-input slds-select">
+										styleclass="slds-input slds-select"
+										style="width: auto">
 										<apex:selectOptions value="{!TaskPriorities}" />
 									</apex:selectList>
 									<apex:outputField value="{!wrapTask.apt.Priority__c}" rendered="{!wrapTask.apt.IsClosed__c || !$ObjectType.APTask__c.fields.Priority__c.updateable}" />
@@ -519,7 +520,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 									<apex:inputCheckbox id="sendEmailCheckbox" value="{!wrapTask.apt.SendEmail__c}" disabled="{!wrapTask.apt.IsClosed__c}" style="vertical-align: middle" />
 								</apex:column>
 								<!--  Tasks reminder settings  -->
-								<apex:column rendered="{!canDisplayReminder}" style="vertical-align: middle" id="reminderCol">
+								<apex:column rendered="{!canDisplayReminder}" style="vertical-align: middle; column-width: 160px" id="reminderCol">
 									<apex:facet name="header"
 										>{!$ObjectType.APTask__c.fields.Reminder__c.label}
 										<br />
@@ -537,7 +538,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 											id="reminderPickList"
 											size="1"
 											value="{!wrapTask.apt.Minutes_Reminder__c}"
-											style="float: left"
+											style="width: auto"
 											rendered="{!!wrapTask.apt.IsClosed__c}"
 											disabled="{!!wrapTask.apt.Reminder__c || wrapTask.apt.IsClosed__c}">
 											<apex:selectOptions value="{!hoursOption}" />
@@ -545,7 +546,39 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 										<apex:outputText value="{!wrapTask.apt.Time_Reminder__c}" rendered="{!wrapTask.apt.IsClosed__c && wrapTask.apt.Reminder__c}" />
 									</apex:outputPanel>
 								</apex:column>
-
+								<!--  Tasks Departments  -->
+								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Department__c.label}" style="vertical-align: middle">
+									<apex:selectList value="{!wrapTask.apt.Department__c}"
+										size="1"
+										styleClass="slds-input slds-select"
+										style="width:fit-content"
+										multiselect="false">
+										<apex:selectOptions value="{!taskDepartments}" />
+										<apex:actionSupport event="onchange" reRender="taskTopics" />
+									</apex:selectList>
+								</apex:column>
+								<!--  Tasks Promote To Case  -->
+								<apex:column style="vertical-align: middle">
+									<apex:facet name="header">
+										{!$ObjectType.APTask__c.fields.Promote_to_Case__c.label}
+										<br />
+										<a id="all" onclick="javascript:checkPromoteToCase(1);" class="all-none">{!$Label.ap_All}</a> |
+										<a id="none" onclick="javascript:checkPromoteToCase(0);" class="all-none">{!$Label.ap_None}</a>
+									</apex:facet>
+									<apex:inputCheckbox id="promoteToCaseCheckbox" value="{!wrapTask.apt.Promote_to_Case__c}" disabled="{!wrapTask.apt.IsClosed__c}" style="vertical-align: middle" />
+								</apex:column>
+								<!--  Tasks Topic  -->
+								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Topic__c.label}" style="vertical-align: middle">
+									<apex:selectList 
+										Id="topic"
+										value="{!wrapTask.apt.Topic__c}"
+										size="1"
+										styleClass="slds-input slds-select"
+										style="width: fit-content"
+										multiselect="false">
+										<apex:selectOptions value="{!taskTopics}" />
+									</apex:selectList>
+								</apex:column>
 								<!--  Tasks comments  -->
 								<apex:column headerValue="{!$ObjectType.APTask__c.fields.Comments__c.label}" style="vertical-align: middle">
 									<apex:outputPanel rendered="{!!wrapTask.apt.IsClosed__c}" layout="none">
