@@ -40,7 +40,10 @@ public with sharing class ActionPlansRedirect {
 		switch on objName {
 			when 'aptask__c' {
 				actionPlanTask = (APTask__c) controller.getRecord();
-				parentId = actionPlanTask.Action_Plan__c;
+				/* Change Redirect to point at Activity Task Instead of Action Plan */
+				// parentId = actionPlanTask.Action_Plan__c;
+				Task[] childTasks = [SELECT Id FROM Task WHERE TaskAPTask__c =:actionPlanTask.Id];
+				parentId = childTasks.size() > 0 ? childTasks[0].Id : actionPlanTask.Action_Plan__c;
 			}
 			when 'aptemplatetask__c' {
 				actionPlanTemplateTask = (APTemplateTask__c) controller.getRecord();

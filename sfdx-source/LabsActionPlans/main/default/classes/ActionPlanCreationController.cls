@@ -663,7 +663,9 @@ public with sharing class ActionPlanCreationController {
 		}
 
 		if (newApId != null) {
-			PageReference newPage = Page.ActionPlanDetail;
+			/* PageReference changed to redirect to Lightning Page */
+			// PageReference newPage = Page.ActionPlanDetail; -- OLD
+			PageReference newPage = new PageReference('/' + newApId);
 			newPage.getParameters().put('Id', newApId);
 			return newPage;
 		} else {
@@ -691,7 +693,9 @@ public with sharing class ActionPlanCreationController {
 
 		// Reference action plan detail page
 		if (paramid != null) {
-			PageReference cancelPage = Page.ActionPlanDetail;
+			/* Page Reference changed to redirect to Lightning Page */
+			// PageReference cancelPage = Page.ActionPlanDetail; -- OLD
+			PageReference cancelPage = new PageReference('/' + paramid);
 			cancelPage.getParameters().put('id', paramid);
 			cancelPage.setRedirect(true);
 			return cancelPage;
