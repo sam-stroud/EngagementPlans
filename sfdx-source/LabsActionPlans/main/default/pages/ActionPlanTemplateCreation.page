@@ -77,7 +77,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					</apex:pageBlockButtons>
 
 					<!-- Information Section -->
-					<apex:pageBlockSection id="informationSection" columns="1" collapsible="false">
+					<apex:pageBlockSection id="informationSection" title="{!$Label.ap_Information}" columns="1" collapsible="false">
 						<apex:pageBlockSectionItem>
 							<apex:outputLabel value="{!$ObjectType.ActionPlanTemplate__c.fields.Name.label}" />
 							<apex:inputField required="true" id="name" value="{!ActionPlanTemplate__c.Name}" style="width: 300px" />
@@ -91,7 +91,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 					<!-- End Information Section -->
 
 					<!-- Tasks Section -->
-					<apex:pageBlockSection columns="2" collapsible="false" id="taskDetails">
+					<apex:pageBlockSection title="{!$ObjectType.Task.labelPlural}" columns="2" collapsible="false" id="taskDetails">
 						<apex:inputField
 							value="{!ActionPlanTemplate__c.SkipWeekends__c}"
 							id="skipWeekendCheckbox"
@@ -119,9 +119,9 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 
 					<apex:pageBlockSection id="taskSection" title="{!$ObjectType.Task.labelPlural}" columns="1" collapsible="false">
 						<apex:outputPanel id="taskList" styleClass="slds-scope" layout="inline">
-							<apex:pageBlockTable value="{!TemplateWrappers}" var="wrapTask" id="taskTable" rules="none" style="table-layout: auto; width: 100%">
+							<apex:pageBlockTable value="{!TemplateWrappers}" var="wrapTask" id="taskTable" rules="none" style="table-layout: auto; width: 100%; vertical-align: middle">
 								<!--  Tasks delete actions  -->
-								<apex:column style="vertical-align: middle" headerValue="" id="columnOne" rendered="{!TemplateWrappers.size > 1 && $ObjectType.APTemplateTask__c.deletable}">
+								<apex:column style="max-width: 40px" headerValue="" id="columnOne" rendered="{!TemplateWrappers.size > 1 && $ObjectType.APTemplateTask__c.deletable}">
 									<apex:commandLink
 										action="{!removeTemplateTask}"
 										id="deleteLink"
@@ -138,7 +138,12 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 
 								<!--  Tasks subject  -->
 								<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Subject__c.label}" style="padding-right: 10px">
-									<apex:inputField id="subject" required="true" value="{!wrapTask.task.Subject__c}" style="width: 100%" />
+									<apex:inputField 
+										id="subject"
+										required="true"
+										value="{!wrapTask.task.Subject__c}"
+										style="width: 100%" 
+										styleClass="slds-scope slds-input" />
 								</apex:column>
 
 								<!--  Tasks depending status  -->
@@ -156,21 +161,27 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 									<apex:inputHidden value="{!wrapTask.task.TaskIndex__c}" id="theHiddenInput" />
 								</apex:column>
 
-								<apex:column>
+								<!--  Task Days After  -->
+								<apex:column style="column-width: auto">
 									<apex:facet name="header">
 										<span>
 											{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.label}
-											<img class="helpOrb" title="{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" />
+											<img class="helpOrb" title="{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" style="vertical-align: top" />
 										</span>
 									</apex:facet>
-									<apex:inputField value="{!wrapTask.task.DaysFromStart__c}" required="true" id="daysInput" style="width: 50%" />
+									<apex:inputField 
+										value="{!wrapTask.task.DaysFromStart__c}"
+										required="true"
+										id="daysInput"
+										style="width: auto" />
 								</apex:column>
 
-								<apex:column id="userLookup">
+								<!--  Tasks Assigned To  -->
+								<apex:column id="userLookup" style="column-width: auto">
 									<apex:facet name="header">
 										<span
 											>{!$ObjectType.APTemplateTask__c.fields.User__c.label}
-											<img class="helpOrb" title="{!$ObjectType.APTemplateTask__c.fields.User__c.inlineHelpText}" src="/s.gif" />
+											<img class="helpOrb" title="{!$ObjectType.APTemplateTask__c.fields.User__c.inlineHelpText}" src="/s.gif" style="vertical-align: top" />
 										</span>
 									</apex:facet>
 									<apex:outputPanel layout="block" id="userPanel" style="z-index: 9999">
@@ -187,18 +198,30 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 									</apex:outputPanel>
 								</apex:column>
 
-								<apex:column headerValue="{!$ObjectType.Task.fields.Type.label}" rendered="{!$ObjectType.Task.fields.Type.accessible}">
-									<apex:selectList value="{!wrapTask.task.Type__c}" size="1" styleclass="slds-input slds-select">
+								<!--  Tasks Type  -->
+								<apex:column headerValue="{!$ObjectType.Task.fields.Type.label}" rendered="{!$ObjectType.Task.fields.Type.accessible}" style="vertical-align: middle">
+									<apex:selectList 
+										required="true"
+										value="{!wrapTask.task.Type__c}"
+										size="1"
+										styleclass="slds-input slds-select">
 										<apex:selectOptions value="{!TaskTypes}" />
 									</apex:selectList>
 								</apex:column>
 
-								<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Priority__c.label}">
-									<apex:selectList required="true" value="{!wrapTask.task.Priority__c}" size="1" styleclass="slds-input slds-select">
+								<!--  Tasks Priority  -->
+								<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Priority__c.label}" style="vertical-align: middle; width: auto">
+									<apex:selectList
+										required="true"
+										value="{!wrapTask.task.Priority__c}"
+										size="1"
+										styleclass="slds-input slds-select"
+										style="width: auto">
 										<apex:selectOptions value="{!TaskPriorities}" />
 									</apex:selectList>
 								</apex:column>
 
+								<!--  Tasks Send Email  -->
 								<apex:column style="vertical-align: middle">
 									<apex:facet name="header">
 										{!$ObjectType.APTemplateTask__c.fields.SendEmail__c.label}
@@ -209,7 +232,8 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 									<apex:inputField id="sendEmailCheckbox" value="{!wrapTask.task.SendEmail__c}" style="vertical-align: middle" />
 								</apex:column>
 
-								<apex:column rendered="{!canDisplayReminder}" style="vertical-align: middle" id="reminderCol">
+								<!--  Tasks Reminder Settings  -->
+								<apex:column rendered="{!canDisplayReminder}" style="vertical-align: middle; column-width: 160px" id="reminderCol">
 									<apex:facet name="header">
 										{!$ObjectType.APTemplateTask__c.fields.Reminder__c.label}
 										<br />
@@ -222,14 +246,58 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 											value="{!wrapTask.task.Reminder__c}"
 											style="float: left; display: inline-block; vertical-align: middle"
 											onclick="javascript:enableDisableReminderPicklist(this, '{!$Component.reminderPickList}');" />
-										<apex:selectList id="reminderPickList" size="1" value="{!wrapTask.task.Minutes_Reminder__c}" style="float: left" disabled="{!!wrapTask.task.Reminder__c}">
+										<apex:selectList id="reminderPickList"
+											size="1"
+											value="{!wrapTask.task.Minutes_Reminder__c}"
+											style="width: auto"
+											disabled="{!!wrapTask.task.Reminder__c}">
 											<apex:selectOptions value="{!hoursOption}" />
 										</apex:selectList>
 									</apex:outputPanel>
 								</apex:column>
 
+								<!--  Tasks Departments  -->
+								<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Department__c.label}" style="vertical-align: middle">
+									<apex:selectList value="{!wrapTask.task.Department__c}"
+										size="1"
+										styleClass="slds-input slds-select"
+										style="width:fit-content"
+										multiselect="false">
+										<apex:selectOptions value="{!taskDepartments}" />
+										<apex:actionSupport event="onchange" reRender="taskTopics" />
+									</apex:selectList>
+								</apex:column>
+
+								<!--  Tasks Promote To Case  -->
+								<apex:column style="vertical-align: middle">
+									<apex:facet name="header">
+										{!$ObjectType.APTemplateTask__c.fields.Promote_to_Case__c.label}
+										<br />
+										<a id="all" onclick="javascript:checkPromoteToCase(1);" class="all-none">{!$Label.ap_All}</a> |
+										<a id="none" onclick="javascript:checkPromoteToCase(0);" class="all-none">{!$Label.ap_None}</a>
+									</apex:facet>
+									<apex:inputCheckbox id="promoteToCaseCheckbox" value="{!wrapTask.task.Promote_to_Case__c}" style="vertical-align: middle" />
+								</apex:column>
+
+								<!--  Tasks Topic  -->
+								<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Topic__c.label}" style="vertical-align: middle">
+									<apex:selectList
+										required="true"
+										value="{!wrapTask.task.Topic__c}"
+										size="1"
+										styleClass="slds-input slds-select"
+										style="width: fit-content"
+										multiselect="false">
+										<apex:selectOptions value="{!taskTopics}" />
+									</apex:selectList>
+								</apex:column>
+
+								<!--  Tasks Comments  -->
 								<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Comments__c.label}" id="commentCol">
-									<apex:inputField id="commentPanel" style="width: 250px; display: none" value="{!wrapTask.task.Comments__c}" />
+									<apex:inputField required="true"
+										id="commentPanel"
+										style="width: 250px; display: none"
+										value="{!wrapTask.task.Comments__c}" />
 									<div style="clear: left">
 										(&nbsp;
 										<a
@@ -246,7 +314,7 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 							</apex:pageBlockTable>
 						</apex:outputPanel>
 
-						<apex:panelGrid columns="2">
+						<apex:panelGrid columns="2" style="margin-bottom: 160px">
 							<apex:commandLink
 								action="{!addTemplateTask}"
 								id="addLink"

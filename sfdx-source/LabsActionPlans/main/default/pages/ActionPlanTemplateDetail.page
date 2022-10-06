@@ -106,7 +106,9 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 				collapsible="false"
 				rendered="{!TemplateTasks.size > 0}">
 				<apex:pageBlockTable value="{!TemplateTasks}" var="task" id="theTable" styleClass="tablesorter sortable noBump" rules="none" style="vertical-align: middle">
-					<apex:column id="columnOne" headerValue="{!$ObjectType.APTemplateTask__c.fields.Subject__c.label}" value="{!task.Subject__c}" style="vertical-align: middle" />
+					
+				<!--  Tasks Subject  -->
+				<apex:column id="columnOne" headerValue="{!$ObjectType.APTemplateTask__c.fields.Subject__c.label}" value="{!task.Subject__c}" style="vertical-align: middle" />
 					<apex:column id="indexColumn" headerValue="{!$ObjectType.APTask__c.fields.TaskIndex__c.label}" rendered="false">
 						<apex:variable value="{!task.TaskIndex__c + 1}" var="row" />
 						<apex:outputText value="{!row}" />
@@ -116,12 +118,16 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 						value="{!task.TController__r.Subject__c}"
 						rendered="{!TemplateTasks.size > 1}"
 						style="vertical-align: middle" />
+					
+					<!--  Tasks Days After  -->
 					<apex:column value="{!task.DaysFromStart__c}" style="vertical-align: middle">
 						<apex:facet name="header"
 							>{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.label}
 							<img class="helpOrb" title="{!$ObjectType.APTemplateTask__c.fields.DaysFromStart__c.inlineHelpText}" src="/s.gif" />
 						</apex:facet>
 					</apex:column>
+					
+					<!--  Tasks User  -->
 					<apex:column id="userLookup">
 						<apex:facet name="header">
 							{!$ObjectType.APTemplateTask__c.fields.User__c.label}
@@ -129,9 +135,17 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 						</apex:facet>
 						<apex:outputField value="{!task.User__c}" />
 					</apex:column>
+					
+					<!--  Tasks Type  -->
 					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Type__c.label}" value="{!task.Type__c}" style="vertical-align: middle" />
+					
+					<!--  Tasks Priority  -->
 					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Priority__c.label}" value="{!task.Priority__c}" style="vertical-align: middle" />
+					
+					<!--  Tasks Send Email  --> 
 					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.SendEmail__c.label}" value="{!task.SendEmail__c}" style="vertical-align: middle" />
+					
+					<!--  Tasks Reminder  -->
 					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Reminder__c.label}" style="vertical-align: middle" rendered="{!canDisplayReminder}">
 						<apex:outputPanel layout="block" style="vertical-align: middle">
 							<apex:outputField value="{!task.Reminder__c}" rendered="{!!task.Reminder__c}" />
@@ -139,6 +153,22 @@ For full license text, see the LICENSE file in the repo root or https://opensour
 						</apex:outputPanel>
 					</apex:column>
 
+					<!--  Tasks Departments  -->
+					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Department__c.label}"
+						value="{!task.Department__c}"
+						style="vertical-align: middle" />
+
+					<!--  Tasks Promote to Case  -->
+					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Promote_to_Case__c.label}" 
+						value="{!task.Promote_to_Case__c}" 
+						style="vertical-align: middle" />
+
+					<!--  Tasks Topic  -->
+					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Topic__c.label}" 
+						value="{!task.Topic__c}" 
+						style="vertical-align: middle" />
+					
+					<!--  Tasks Comments  -->
 					<apex:column headerValue="{!$ObjectType.APTemplateTask__c.fields.Comments__c.label}" style="vertical-align: middle">
 						<apex:outputPanel id="commentPanel" style="display: none" onclick="toggleVisibility('{!$Component.commentPanel}');">
 							<apex:outputField value="{!task.Comments__c}" />

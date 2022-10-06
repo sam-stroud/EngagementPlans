@@ -345,7 +345,10 @@ public with sharing class ActionPlanTemplateCreationController {
 				TController__r.Subject__c,
 				Reminder__c,
 				SendEmail__c,
-				Comments__c
+				Comments__c,
+				Topic__c,
+				Promote_to_Case__c,
+				Department__c
 			FROM APTemplateTask__c
 			WHERE Action_Plan_Template__c = :templateId
 			ORDER BY TaskIndex__c ASC
@@ -542,6 +545,40 @@ public with sharing class ActionPlanTemplateCreationController {
 	 */
 	public List<SelectOption> getTaskRTPicklistValues() {
 		return ActionPlansUtilities.getTaskRTPicklistValues();
+	}
+
+	/**
+	 * Picklist of `Task.Topic__c` values
+	 */
+	private List<SelectOption> taskTopics;
+	/**
+	 * Generates picklist of Task Topics
+	 * @author {[Sam Stroud]}
+	 * @return Picklist of `Task.Topic__c`
+	 * @see ActionPlansUtilities.getFieldOptions
+	 */
+	public List<SelectOption> getTaskTopics() {
+			if (taskTopics == null) {
+					taskTopics = ActionPlansUtilities.getFieldOptions('APTemplateTask__c', 'Topic__c', true);
+			}
+			return taskTopics;
+	}
+
+	/**
+	 * Piclist of `Task.Department__c` values
+	 */
+	private List<SelectOption> listOfDepartments;
+	/**
+	 * Generates picklist of Task Departments
+	 * @author {[Sam Stroud]}
+	 * @return Picklist of `Task.Department__c`
+	 * @see ActionPlansUtilities.getFieldOptions
+	 */
+	public List<SelectOption> getTaskDepartments() {
+		if (listOfDepartments == null) {
+			listOfDepartments = ActionPlansUtilities.getFieldOptions('APTemplateTask__c', 'Department__c', true);
+		}
+		return listOfDepartments;
 	}
 
 	/**

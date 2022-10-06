@@ -81,7 +81,10 @@ global without sharing class ActionPlanCreateInvocable {
 						SendEmail__c,
 						Comments__c,
 						TaskIndex__c,
-						Action_Plan_Template__r.TaskRecordTypeID__c
+						Action_Plan_Template__r.TaskRecordTypeID__c,
+						Department__c,
+						Topic__c,
+						Promote_to_Case__c
 					FROM aptTasks__r
 					ORDER BY TaskIndex__c ASC
 				)
@@ -179,6 +182,9 @@ global without sharing class ActionPlanCreateInvocable {
 					apTask.Reminder__c = aptTask.Reminder__c;
 					apTask.Minutes_Reminder__c = aptTask.Minutes_Reminder__c;
 					apTask.SendEmail__c = aptTask.SendEmail__c;
+					apTask.Topic__c = aptTask.Topic__c;
+					apTask.Department__c = aptTask.Department__c;
+					apTask.Promote_to_Case__c = aptTask.Promote_to_Case__c;
 
 					apTask.Action_Plan__c = ap.Id;
 
@@ -242,6 +248,9 @@ global without sharing class ActionPlanCreateInvocable {
 			t.Priority = apTask.Priority__c;
 			t.OwnerId = apTask?.User__c == null ? UserInfo.getUserId() : apTask.User__c;
 			t.TaskAPTask__c = apTask.Id;
+			t.Topic__c = apTask.Topic__c;
+			t.Department__c = apTask.Department__c;
+			t.Promote_to_Case__c = apTask.Promote_to_Case__c;
 
 			if (apTask.Comments__c != null) {
 				t.Description = apTask.Comments__c;

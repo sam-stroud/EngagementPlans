@@ -215,6 +215,9 @@ public inherited sharing class ActionPlansBuilderUtilities {
 			}
 			t.Type = refAPTask.Type__c;
 			t.TaskAPTask__c = refAPTask.Id;
+			t.Department__c = refAPTask.Department__c;
+			t.Topic__c = refAPTask.Topic__c;
+			t.Promote_to_Case__c = refAPTask.Promote_to_Case__c;
 
 			if (String.isNotEmpty(refAPTask.Comments__c)) {
 				t.Description = refAPTask.Comments__c;
