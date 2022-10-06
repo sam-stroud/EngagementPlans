@@ -581,7 +581,7 @@ global without sharing class ActionPlansTriggerHandlers {
 							}
 							//tmp.User__c = ( ? t.OwnerId : tmp.User__c;
 							tmp.ActivityDate__c = t.ActivityDate;
-							tmp.Account__c = t.Account__c;
+							tmp.Department__c = t.Department__c;
 							tmp.Topic__c = t.Topic__c;
 							tmp.Promote_to_Case__c = t.Promote_to_Case__c;
 							lUpsert.add(tmp);
