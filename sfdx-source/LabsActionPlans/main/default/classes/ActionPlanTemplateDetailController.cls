@@ -116,7 +116,10 @@ public with sharing class ActionPlanTemplateDetailController {
 				TController__r.Subject__c,
 				Reminder__c,
 				SendEmail__c,
-				Comments__c
+				Comments__c,
+				Topic__c,
+				Promote_to_Case__c,
+				Department__c
 			FROM APTemplateTask__c
 			WHERE Action_Plan_Template__c = :actionPlanTemplate.Id
 			ORDER BY TaskIndex__c ASC NULLS FIRST
