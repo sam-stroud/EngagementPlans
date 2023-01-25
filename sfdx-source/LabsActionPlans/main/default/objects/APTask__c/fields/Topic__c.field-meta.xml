@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Topic__c</fullName>
+    <externalId>false</externalId>
+    <label>Topic</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <controllingField>Department__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Topic 1</fullName>
+                <default>false</default>
+                <label>Topic 1</label>
+            </value>
+            <value>
+                <fullName>Topic 2</fullName>
+                <default>false</default>
+                <label>Topic 2</label>
+            </value>
+            <value>
+                <fullName>Topic 3</fullName>
+                <default>false</default>
+                <label>Topic 3</label>
+            </value>
+            <value>
+                <fullName>Topic 4</fullName>
+                <default>false</default>
+                <label>Topic 4</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Center for International Education</controllingFieldValue>
+            <controllingFieldValue>Academic Success Centers</controllingFieldValue>
+            <valueName>Topic 1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Center for International Education</controllingFieldValue>
+            <controllingFieldValue>Career Development</controllingFieldValue>
+            <valueName>Topic 4</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Academic Success Centers</controllingFieldValue>
+            <controllingFieldValue>Athletics</controllingFieldValue>
+            <valueName>Topic 2</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Athletics</controllingFieldValue>
+            <controllingFieldValue>Career Development</controllingFieldValue>
+            <valueName>Topic 3</valueName>
+        </valueSettings>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Alert_Reason__c</fullName>
+    <externalId>false</externalId>
+    <label>Alert Reason</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Reason 1</fullName>
+                <default>false</default>
+                <label>Reason 1</label>
+            </value>
+            <value>
+                <fullName>Reason 2</fullName>
+                <default>false</default>
+                <label>Reason 2</label>
+            </value>
+            <value>
+                <fullName>Reason 3</fullName>
+                <default>false</default>
+                <label>Reason 3</label>
+            </value>
+            <value>
+                <fullName>Academic Compliance</fullName>
+                <default>false</default>
+                <label>Academic Compliance</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

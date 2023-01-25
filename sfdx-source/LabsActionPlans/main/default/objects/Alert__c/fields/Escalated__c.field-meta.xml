@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Escalated__c</fullName>
+    <description>A case has been created for this alert. Check true when there is a case associated.</description>
+    <externalId>false</externalId>
+    <formula>NOT(ISBLANK( Case__c ))</formula>
+    <inlineHelpText>If checked, the alert activity has been promoted to a case.</inlineHelpText>
+    <label>Escalated</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

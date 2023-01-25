@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enforce_Required_Fields_Closed</fullName>
+    <active>true</active>
+    <description>Enforce required fields to close an alert</description>
+    <errorConditionFormula>AND( TEXT( Status__c ) = &quot;Closed&quot;,
+OR(
+ISBLANK( TEXT( Resolution_Reason__c ) )
+, ISBLANK(  Resolution_Description__c )
+)
+)</errorConditionFormula>
+    <errorMessage>Resolution Reason and Description are required to close an alert.</errorMessage>
+</ValidationRule>
